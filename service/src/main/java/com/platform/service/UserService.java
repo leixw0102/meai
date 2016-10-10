@@ -25,4 +25,12 @@ public interface UserService<T> {
 	 * @throws Exception
      */
 	public boolean checkAlone(T user) throws Exception;
+
+	/**
+	 *
+	 * @param userId
+	 * @return
+	 * @throws Exception
+     */
+	public boolean logout(Long userId) throws Exception;
 }

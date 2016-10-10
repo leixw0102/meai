@@ -23,6 +23,14 @@ public class EnterpriseUser implements Serializable{
 	private String institutionCode; //机构代码
 	private String introduction;//空间简介
 
+	public EnterpriseUser() {
+	}
+
+	public EnterpriseUser(String userName, String password) {
+		this.userName = userName;
+		this.password = password;
+	}
+
 	public String getIntroduction() {
 		return introduction;
 	}
@@ -127,6 +135,14 @@ public class EnterpriseUser implements Serializable{
 				", addressDetail='" + addressDetail + '\'' +
 				", time=" + time +
 				'}';
+	}
+
+	/**
+	 * 登陆验证
+	 * @return
+     */
+	public boolean loginVerify(){
+		return !Strings.isNullOrEmpty(getUserName()) && !Strings.isNullOrEmpty(getPassword());
 	}
 
 	/**

@@ -1,25 +1,21 @@
 package com.platform.api.controller;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.platform.common.response.ResponseConstantCode;
 import com.platform.common.response.ResponseMsg;
 import com.platform.domain.EnterpriseUser;
 import com.platform.service.EnterpriseUserService;
+import com.sun.tools.javac.comp.Enter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -41,9 +37,6 @@ public class UserController extends BaseController {
 
 			}
 
-			if(!enterpriseUserService.checkAlone(user)){
-				return 	new ResponseMsg(ResponseConstantCode.INTERNAL_ERROR_CODE,"用户已经存在");
-			}
 
 			EnterpriseUser userInfo = enterpriseUserService.registry(user) ;
 			if (userInfo == null){
@@ -52,14 +45,15 @@ public class UserController extends BaseController {
 
 
 
-			ResponseMsg message = new ResponseMsg(ResponseConstantCode.SUCCESS_CODE,ResponseConstantCode.SUCCESS_DESC);
+			ResponseMsg message = getSuccess();
 			JSONObject info = new JSONObject();
 			info.put("user_id",user.getUserId());
-			info.put("access_token",user.getUserKey());
+//			info.put("access_token",user.getUserKey());
 			message.setInfo(info);
 			return message;
 			//	logger.debug("影人图片查询结束，返回终端数据；");
 		} catch (Exception e) {
+			e.printStackTrace();
 			return 	new ResponseMsg(ResponseConstantCode.INTERNAL_ERROR_CODE,e.getMessage());
 		}
 	}
@@ -68,5 +62,39 @@ public class UserController extends BaseController {
 	public com.platform.common.response.ResponseBody test(){
 		return 	new ResponseMsg(ResponseConstantCode.INTERNAL_ERROR_CODE,"注册失败");
 	}
+	@RequestMapping(value = "/enterprise/1.0/login")
+	@ResponseBody
+	public com.platform.common.response.ResponseBody enterpriseLogin(@RequestBody EnterpriseUser user){
+		logger.info("enterprise login :parameters uName={},password={}",user.getUserName(),user.getPassword());
 
+		try {
+			EnterpriseUser login=enterpriseUserService.login(user);
+
+			if(null == login){
+				return 	new ResponseMsg(ResponseConstantCode.INTERNAL_ERROR_CODE,"用户名或密码正确，请确认你已经注册");
+			}
+			ResponseMsg success = getSuccess();
+			JSONObject info = new JSONObject();
+			info.put("userId",login.getUserId());
+			success.setInfo(info);
+			return success;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("logion failed {}",e.getLocalizedMessage());
+			return 	new ResponseMsg(ResponseConstantCode.INTERNAL_ERROR_CODE,e.getMessage());
+		}
+
+	}
+	@RequestMapping(value = "/enterprise/1.0/logout/{userId}")
+	public @ResponseBody com.platform.common.response.ResponseBody logout(@PathVariable Long userId){
+		try {
+			if(enterpriseUserService.logout(userId)){
+				return getSuccess();
+			};
+//			return new ResponseMsg<>()
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

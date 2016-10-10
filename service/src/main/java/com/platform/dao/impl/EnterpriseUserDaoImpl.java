@@ -62,13 +62,12 @@ public class EnterpriseUserDaoImpl extends BaseDaoImpl implements EnterpriseUser
 	}
 	@Override
 	public Long login(EnterpriseUser user) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return getIdBySql("select id from enterprise_user where user_name='"+user.getUserName()+"' and  password='"+user.getPassword()+"'");
 	}
 
 	@Override
 	public boolean isExistUser(String sql) throws Exception {
-		return false;
+		return getIdBySql(sql)>0?true:false;
 	}
 
 
