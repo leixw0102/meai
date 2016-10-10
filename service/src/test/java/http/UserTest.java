@@ -38,7 +38,7 @@ public class UserTest extends TestBase{
 //    public static void main(String[]args) throws Exception {
 //        testBuyerLoginTest();
 //    }
-    @Test
+//    @Test
     public void testEnterpriseLogin() throws Exception {
         Map<String,Object> maps = Maps.newHashMap();
         maps.put("userName","df");

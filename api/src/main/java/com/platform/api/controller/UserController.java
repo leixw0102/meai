@@ -27,7 +27,7 @@ public class UserController extends BaseController {
 		
 	
 
-	@RequestMapping(value = "/enterprise/1.0/register")
+	@RequestMapping(value = "/1.0/enterprise/register")
 	@ResponseBody
 	public com.platform.common.response.ResponseBody meaiRegister(@RequestBody EnterpriseUser user) throws ServletException, IOException {
 		try {
@@ -62,7 +62,7 @@ public class UserController extends BaseController {
 	public com.platform.common.response.ResponseBody test(){
 		return 	new ResponseMsg(ResponseConstantCode.INTERNAL_ERROR_CODE,"注册失败");
 	}
-	@RequestMapping(value = "/enterprise/1.0/login")
+	@RequestMapping(value = "/1.0/enterprise/login")
 	@ResponseBody
 	public com.platform.common.response.ResponseBody enterpriseLogin(@RequestBody EnterpriseUser user){
 		logger.info("enterprise login :parameters uName={},password={}",user.getUserName(),user.getPassword());
@@ -85,7 +85,7 @@ public class UserController extends BaseController {
 		}
 
 	}
-	@RequestMapping(value = "/enterprise/1.0/logout/{userId}")
+	@RequestMapping(value = "/1.0/enterprise/logout/{userId}")
 	public @ResponseBody com.platform.common.response.ResponseBody logout(@PathVariable Long userId){
 		try {
 			if(enterpriseUserService.logout(userId)){
