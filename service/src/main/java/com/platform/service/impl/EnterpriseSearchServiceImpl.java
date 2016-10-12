@@ -3,6 +3,7 @@ package com.platform.service.impl;
 import com.platform.bo.EnterpriseHomeSearchBo;
 import com.platform.common.response.Page;
 import com.platform.common.response.ResponseBody;
+import com.platform.common.response.ResponseMsg;
 import com.platform.dao.EnterpriseSearchDao;
 import com.platform.domain.EnterpriseUser;
 import com.platform.service.EnterpriseSearchService;
@@ -36,5 +37,14 @@ public class EnterpriseSearchServiceImpl implements EnterpriseSearchService {
         List<EnterpriseUser> users = enterpriseSearchDao.search("select * from enterprise_user "+ bo.whereSql());
         page.setMessages(users);
         return page;
+    }
+
+    @Override
+    public EnterpriseUser getEnterprise(Long id) throws Exception {
+        List<EnterpriseUser>users = enterpriseSearchDao.search("select * from enterprise_user where id="+id);
+        if(null == users){
+            throw new Exception("该企业没找到");
+        }
+        return users.get(0);
     }
 }

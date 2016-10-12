@@ -47,7 +47,7 @@ public class UserTest extends TestBase{
         System.out.println(json);
     }
 
-    @Test
+//    @Test
     public void testSearch()throws Exception{
         Map<String,Object> maps = Maps.newHashMap();
         maps.put("key","s");
@@ -56,4 +56,12 @@ public class UserTest extends TestBase{
         System.out.println(json);
     }
 
+    @Test
+    public void testSearchDetail()throws Exception{
+        Map<String,Object> maps = Maps.newHashMap();
+//        maps.put("key","s");
+//        maps.put("password","11");
+        String json = HEHttpClients.httpJsonPostExecute("http://localhost:9090/api/meai/1.0/enterprise/info/1",maps);
+        System.out.println(json);
+    }
 }
