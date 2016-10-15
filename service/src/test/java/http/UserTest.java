@@ -2,6 +2,7 @@ package http;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
+import com.platform.bo.EnterpriseEditMsg;
 import com.platform.common.ObjectUtils;
 import com.platform.common.httpclient.HEHttpClients;
 import com.platform.domain.EnterpriseUser;
@@ -43,7 +44,7 @@ public class UserTest extends TestBase{
         Map<String,Object> maps = Maps.newHashMap();
         maps.put("userName","df");
         maps.put("password","11");
-        String json = HEHttpClients.httpJsonPostExecute("http://localhost:9090/api/meai/enterprise/1.0/login",maps);
+        String json = HEHttpClients.httpJsonPostExecute("http://localhost:9090/api/meai/1.0/enterprise/login",maps);
         System.out.println(json);
     }
 
@@ -56,12 +57,25 @@ public class UserTest extends TestBase{
         System.out.println(json);
     }
 
-    @Test
+//    @Test
     public void testSearchDetail()throws Exception{
         Map<String,Object> maps = Maps.newHashMap();
 //        maps.put("key","s");
 //        maps.put("password","11");
         String json = HEHttpClients.httpJsonPostExecute("http://localhost:9090/api/meai/1.0/enterprise/info/1",maps);
+        System.out.println(json);
+    }
+//    @Test
+    public void testUpdate() throws Exception{
+        EnterpriseEditMsg editMsg = new EnterpriseEditMsg();
+        editMsg.setCompanyAddress("sdjlfksdjlfsd");
+        editMsg.setContactName("4444444444444444");
+        editMsg.setId(1L);
+        editMsg.setIntroduction("sdfdsfd");
+        editMsg.setTelphone("dsfsdfsssssssssssssssssssss");
+        editMsg.setPicture_path("dsfsdfds");
+
+        String  json =  HEHttpClients.httpJsonPostExecute("http://localhost:9090/api/meai/enterprise/1.0/abs/edit",  ObjectUtils.toMap(editMsg));
         System.out.println(json);
     }
 }

@@ -117,7 +117,24 @@ public class EnterpriseUser implements Serializable{
 	public void setTime(Date time) {
 		this.time = time;
 	}
+	private String telphone;
+	private String mark;
 
+	public String getTelphone() {
+		return telphone;
+	}
+
+	public void setTelphone(String telphone) {
+		this.telphone = telphone;
+	}
+
+	public String getMark() {
+		return mark;
+	}
+
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
 
 	@Override
 	public String toString() {
@@ -134,6 +151,8 @@ public class EnterpriseUser implements Serializable{
 				", companyMail='" + companyMail + '\'' +
 				", addressDetail='" + addressDetail + '\'' +
 				", time=" + time +
+				", telphone='" + telphone + '\'' +
+				", mark='" + mark + '\'' +
 				'}';
 	}
 

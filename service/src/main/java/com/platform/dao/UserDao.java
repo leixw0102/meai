@@ -16,7 +16,7 @@ public interface UserDao <T>{
 	 * @return
 	 * @throws Exception
 	 */
-	public Long login(T user) throws Exception;
+	public T login(T user) throws Exception;
 
 	/**
 	 * 通过sql检查用户数据是否存在

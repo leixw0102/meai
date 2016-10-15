@@ -3,12 +3,14 @@ package com.platform.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.platform.dao.EnterpriseUserDao;
 import com.platform.domain.EnterpriseUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -61,8 +63,13 @@ public class EnterpriseUserDaoImpl extends BaseDaoImpl implements EnterpriseUser
 		return 0L;
 	}
 	@Override
-	public Long login(EnterpriseUser user) throws Exception {
-		return getIdBySql("select id from enterprise_user where user_name='"+user.getUserName()+"' and  password='"+user.getPassword()+"'");
+	public EnterpriseUser login(EnterpriseUser user) throws Exception {
+		List<EnterpriseUser> list= getBySqlRowMapper("select * from enterprise_user where user_name='"+user.getUserName()+"' and  password='"+user.getPassword()+"'",new BeanPropertyRowMapper(EnterpriseUser.class));
+		if(null == list || list.size()==0){
+			return null;
+		}
+		return list.get(0);
+//		return getIdBySql("select id from enterprise_user where user_name='"+user.getUserName()+"' and  password='"+user.getPassword()+"'");
 	}
 
 	@Override
@@ -70,5 +77,9 @@ public class EnterpriseUserDaoImpl extends BaseDaoImpl implements EnterpriseUser
 		return getIdBySql(sql)>0?true:false;
 	}
 
-
+	@Transactional(readOnly = false,rollbackFor = Exception.class)
+	@Override
+	public boolean updateEnterprise(String sql) throws Exception {
+		return update(sql);
+	}
 }

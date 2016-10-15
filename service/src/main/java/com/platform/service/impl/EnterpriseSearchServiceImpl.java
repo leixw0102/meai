@@ -3,7 +3,6 @@ package com.platform.service.impl;
 import com.platform.bo.EnterpriseHomeSearchBo;
 import com.platform.common.response.Page;
 import com.platform.common.response.ResponseBody;
-import com.platform.common.response.ResponseMsg;
 import com.platform.dao.EnterpriseSearchDao;
 import com.platform.domain.EnterpriseUser;
 import com.platform.service.EnterpriseSearchService;

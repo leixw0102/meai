@@ -17,7 +17,7 @@ public class SpaceUserDaoImpl extends BaseDaoImpl implements SpaceUserDao{
     }
 
     @Override
-    public Long login(SpaceUser user) throws Exception {
+    public SpaceUser login(SpaceUser user) throws Exception {
         return null;
     }
 

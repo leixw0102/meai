@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
+import com.platform.bo.EnterpriseEditMsg;
 import com.platform.common.response.ResponseConstantCode;
 import com.platform.common.response.ResponseMsg;
 import com.platform.domain.EnterpriseUser;
@@ -69,14 +70,15 @@ public class UserController extends BaseController {
 
 		try {
 			EnterpriseUser login=enterpriseUserService.login(user);
-
+			logger.info("enterprise login user ={}",login.toString());
 			if(null == login){
 				return 	new ResponseMsg(ResponseConstantCode.INTERNAL_ERROR_CODE,"用户名或密码正确，请确认你已经注册");
 			}
 			ResponseMsg success = getSuccess();
-			JSONObject info = new JSONObject();
-			info.put("userId",login.getUserId());
-			success.setInfo(info);
+//			JSONObject info = new JSONObject();
+//			info.p
+//			info.put("userId",login.getUserId());
+			success.setInfo(login);
 			return success;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,6 +87,27 @@ public class UserController extends BaseController {
 		}
 
 	}
+	@RequestMapping("/1.0/enterprise/abs/edit")
+	@ResponseBody
+	public com.platform.common.response.ResponseBody enterpriseEdit(@RequestBody EnterpriseEditMsg editMsg){
+
+		logger.info("enterprise base edit info={}",editMsg.toString());
+		try {
+			if(enterpriseUserService.updateBaseEdit(editMsg)){
+				return getSuccess();
+			}
+			return new ResponseMsg(ResponseConstantCode.INTERNAL_ERROR_CODE,"更新失败");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("logion failed {}",e.getLocalizedMessage());
+			return 	new ResponseMsg(ResponseConstantCode.INTERNAL_ERROR_CODE,e.getMessage());
+		}
+	}
+
+//	public com.platform.common.response.ResponseBody enterpriseEdit(@RequestBody EnterpriseEditMsg editMsg){
+//		return null;
+//	}
+
 	@RequestMapping(value = "/1.0/enterprise/logout/{userId}")
 	public @ResponseBody com.platform.common.response.ResponseBody logout(@PathVariable Long userId){
 		try {
